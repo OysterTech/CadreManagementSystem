@@ -3,7 +3,7 @@
  * @name 全局路由
  * @author CodeIgniter,Jerry Cheung 
  * @since 2018-02-06
- * @version 2018-11-02
+ * @version 2018-11-03
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -92,7 +92,8 @@ $route['api/getProfile']['POST']='API/API_Profile/getProfile';
 $route['workLog/detail/(:num)']='Worklog/showDetail/$1';
 $route['workLog/toUploadPhoto']['POST']='Worklog/toUploadPhoto';
 $route['workLog/toAdd']['POST']='Worklog/toAdd';
-$route['workLog/my/list']='Worklog/myList';
+$route['workLog/my/list']='Worklog/list';
 $route['workLog/my/add']='Worklog/myAdd';
-$route['workLog/member/list']='Worklog/memberList';
+$route['workLog/member/choose']='Worklog/chooseMember';
+$route['workLog/member/list/(:num)']='Worklog/list/$1';
 $route['workLog/member/add']='Worklog/memberAdd';

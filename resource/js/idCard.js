@@ -1,6 +1,6 @@
 /**
  * idCard.js 检验证件号有效性JS
- * Created at 2018.06.06 by Jerry Cheung
+ * Created on 2018.06.06 by Jerry Cheung
  */
 
 /**

@@ -3,7 +3,7 @@
  * @name C-Worklog工作记录
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-11-02
- * @version 2018-11-02
+ * @version 2018-11-03
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -26,6 +26,28 @@ class Worklog extends CI_Controller {
 
 		$this->nowUserID=$this->session->userdata($this->sessPrefix.'userID');
 		$this->nowUserName=$this->session->userdata($this->sessPrefix.'userName');
+	}
+
+
+	public function list($id=0)
+	{
+		if($id==0){
+			$id=$this->nowUserID;
+		}
+		
+		$query1=$this->db->get_where('profile',array('user_id'=>$id));
+		$info=$query1->result_array();
+		
+		if(isset($info[0]['name'])){
+			$name=$info[0]['name'];
+		}else{
+			header("location:".base_url("/"));
+		}
+		
+		$query=$this->db->get_where('work_log',array('user_id'=>$id));
+		$info=$query->result_array();
+
+		$this->load->view('workLog/list',['list'=>$info,'name'=>$name]);
 	}
 
 
@@ -60,6 +82,12 @@ class Worklog extends CI_Controller {
 	}
 
 
+	public function chooseMember()
+	{
+		$this->load->view('workLog/chooseMember');
+	}
+	
+	
 	public function myAdd()
 	{
 		$this->ajax->makeAjaxToken();
@@ -68,17 +96,6 @@ class Worklog extends CI_Controller {
 		$info=$query->result_array();
 
 		$this->load->view('workLog/add',['type'=>'my','myName'=>$info[0]['name'],'id'=>$this->nowUserID]);
-	}
-
-
-	public function myList()
-	{
-		$this->ajax->makeAjaxToken();
-		
-		$query=$this->db->get_where('work_log',array('user_id'=>$this->nowUserID));
-		$info=$query->result_array();
-
-		$this->load->view('workLog/myList',['list'=>$info]);
 	}
 
 

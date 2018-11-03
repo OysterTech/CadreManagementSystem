@@ -1,9 +1,9 @@
 <?php 
 /**
- * @name V-我的工作记录列表
+ * @name V-工作记录列表
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-11-02
- * @version 2018-11-02
+ * @version 2018-11-03
  */ 
 ?>
 
@@ -12,7 +12,7 @@
 
 <head>
   <?php $this->load->view('include/header'); ?>
-  <title>我的工作记录 / <?php echo $this->Setting_model->get('systemName'); ?></title>
+  <title>工作记录列表 / <?php echo $this->Setting_model->get('systemName'); ?></title>
 </head>
 
 <body>
@@ -26,7 +26,7 @@
 <!-- Page Name-->
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">我的工作列表</h1>
+		<h2 class="page-header"><?=$name;?>的工作记录</h2>
 	</div>
 </div>
 <!-- ./Page Name-->

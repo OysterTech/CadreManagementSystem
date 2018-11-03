@@ -3,7 +3,7 @@
  * @name V-个人资料卡
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-10-25
- * @version 2018-10-28
+ * @version 2018-11-03
  */ 
 ?>
 
@@ -18,7 +18,7 @@
 		margin-top: 10px;
 		border: 1px solid #617775;
 		background: #f0f6e4;
-		width:80%;
+		width:100%;
 		height:360px;
 		overflow-y:scroll;
 		overflow-x:auto;
