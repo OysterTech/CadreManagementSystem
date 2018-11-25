@@ -1,9 +1,9 @@
 <?php 
 /**
- * @name V-个人资料卡
+ * @name V-档案-我的部员
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-10-25
- * @version 2018-11-03
+ * @version 2018-11-19
  */ 
 ?>
 
@@ -12,7 +12,7 @@
 
 <head>
 	<?php $this->load->view('include/header'); ?>
-	<title>我的下属列表 / <?php echo $this->Setting_model->get('systemName'); ?></title>
+	<title>我的部员档案 / <?php echo $this->Setting_model->get('systemName'); ?></title>
 	<style>
 	ul.ztree{
 		margin-top: 10px;
@@ -37,7 +37,7 @@
 <!-- Page Name-->
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">我的下属列表</h1>
+		<h1 class="page-header">我的部员档案</h1>
 	</div>
 </div>
 <!-- ./Page Name-->
@@ -72,10 +72,10 @@ $(document).ready(function(){
 	$.fn.zTree.init($("#treeDemo"), setting);
 });
 
-function showProfile(id){
+function showArchive(id){
 	lockScreen();
 	$.ajax({
-		url:"<?=base_url('api/getProfile');?>",
+		url:"<?=base_url('api/getArchive');?>",
 		type:"post",
 		data:{<?php echo $this->ajax->showAjaxToken(); ?>,'id':id},
 		dataType:"json",
@@ -91,15 +91,16 @@ function showProfile(id){
 			if(ret.code=="200"){
 				var info=ret.data['data'];
 				
-				$("#profileModalTitle").html(info['name']+"的资料卡");
+				$("#archiveModalTitle").html(info['name']+"的资料卡");
 				$("#name").html(info['name']);
 				$("#sex").html(info['sex']);
 				gradeName=getGradeByEnrollYear(info['enroll_year']);
 				$("#className").html(gradeName+"("+info['class_num']+")班");
+				$("#jobName").html(info['job_name']);
 				$("#phone").html(info['phone']);
 				$("#description").html(info['description']);
 				$("#photo").attr("src",info['photo_url']);
-				$("#profileModal").modal("show");
+				$("#archiveModal").modal("show");
 			}
 		}
 	});
@@ -116,24 +117,27 @@ function filter(treeId,parentNode,childNodes) {
 }
 function addHoverDom(treeId, treeNode) {
 	var aObj=$("#"+treeNode.tId+"_a");
-	var editStr="<button id='show_"+treeNode.id+"' onclick='showProfile("+'"'+treeNode.id+'"'+");'>显示资料卡</button>";
-	if($("#show_"+treeNode.id).length>0) return;
+	var editStr="<button id='show_1_"+treeNode.id+"' onclick='showArchive("+'"'+treeNode.id+'"'+");'>显示资料卡</button> <button id='show_2_"+treeNode.id+"' onclick="+'"'+"window.location.href='<?=base_url('archive/memberCard/');?>"+treeNode.id+"';"+'"'+"'>编辑档案</button>";
+	
+	if($("#show_1_"+treeNode.id).length>0) return;
+	if($("#show_2_"+treeNode.id).length>0) return;
 	if(treeNode.isParent==true) return;
 	aObj.append(editStr);
 };
 function removeHoverDom(treeId, treeNode) {
-	$("#show_"+treeNode.id).unbind().remove();
+	$("#show_1_"+treeNode.id).unbind().remove();
+	$("#show_2_"+treeNode.id).unbind().remove();
 };
 </SCRIPT>
 
 <?php $this->load->view('include/tipsModal'); ?>
 
-<div class="modal fade" id="profileModal">
+<div class="modal fade" id="archiveModal">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-				<h3 class="modal-title" id="profileModalTitle"></h3>
+				<h3 class="modal-title" id="archiveModalTitle"></h3>
 			</div>
 			<div class="modal-body">
 				<table class="table table-hover table-striped table-bordered">
@@ -152,6 +156,10 @@ function removeHoverDom(treeId, treeNode) {
 					<tr>
 						<th>手机号</th>
 						<td id="phone"></td>
+					</tr>
+					<tr>
+						<th>职务</th>
+						<td id="jobName"></td>
 					</tr>
 					<tr>
 						<th>个人简介</th>

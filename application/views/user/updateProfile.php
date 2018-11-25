@@ -66,11 +66,11 @@
 
 		<hr>
 
-		<div class="form-group">
+		<!--div class="form-group">
 			<label for="phone">手机号</label>
 			<input type="number" class="form-control" id="phone" onkeyup='if(event.keyCode==13)$("#email").focus();' value="<?=$info['phone']; ?>">
 		</div>
-		<br>
+		<br-->
 		<div class="form-group">
 			<label for="email">邮箱</label>
 			<input type="email" class="form-control" id="email" value="<?=$info['email']; ?>" onkeyup='if(event.keyCode==13)updateProfile();'>
@@ -109,7 +109,7 @@ function updateProfile(){
 	oldPwd=$("#oldPwd").val();
 	newPwd=$("#newPwd").val();
 	checkPwd=$("#checkPwd").val();
-	phone=$("#phone").val();
+	phone="<?=$info['phone']; ?>";
 	email=$("#email").val();
 
 	if(userName==""){

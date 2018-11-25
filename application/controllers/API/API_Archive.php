@@ -1,14 +1,14 @@
 <?php
 /**
-* @name A-Profile-资料API
+* @name A-Archive-档案API
 * @author Jerry Cheung <master@xshgzs.com>
 * @since 2018-10-28
-* @version 2018-10-28
+* @version 2018-11-04
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class API_Profile extends CI_Controller {
+class API_Archive extends CI_Controller {
 
 	public $sessPrefix;
 	public $nowUserID;
@@ -22,19 +22,19 @@ class API_Profile extends CI_Controller {
 	}
 
 
-	public function getProfile(){
+	public function getArchive(){
 		$token=$this->input->post('token');
 		$this->ajax->checkAjaxToken($token);
 		
 		$id=$this->input->post('id');
-		$query=$this->db->get_where('profile',array('id'=>$id));
+		$query=$this->db->get_where('archive',array('id'=>$id));
 		$list=$query->result_array();
 		
 		if(count($list)==1){
 			$ret=$this->ajax->returnData("200","success",['data'=>$list[0]]);
 			die($ret);
 		}else{
-			$ret=$this->ajax->returnData("0","noProfile");
+			$ret=$this->ajax->returnData("0","noArchive");
 			die($ret);
 		}
 	}

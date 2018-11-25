@@ -3,7 +3,7 @@
  * @name V-工作记录列表
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-11-02
- * @version 2018-11-03
+ * @version 2018-11-25
  */ 
 ?>
 
@@ -36,6 +36,7 @@
 		<tr>
 			<th>工作内容</th>
 			<th>工作时间</th>
+			<th>工作时长</th>
 			<th>操作</th>
 		</tr>
 	</thead>
@@ -44,8 +45,9 @@
 	<?php foreach($list as $info){ ?>
 		<tr>
 			<td><?php if(strlen($info['content'])>30){echo substr($info['content'],0,30)."...";}else{echo $info['content'];} ?></td>
-			<td><?=$info['create_time'];?></td>
-			<td><a href="<?=base_url('workLog/detail/').$info['id'];?>" class="btn btn-info">详细</a></td>
+			<td><?=substr($info['begin_time'],0,10)."<br>".substr($info['begin_time'],11,5);?></td>
+			<td><?=$info['work_hour'];?></td>
+			<td><a href="<?=base_url('workLog/detail/').$info['id'];?>" class="btn btn-info">详细</a> <a href="<?=base_url('workLog/edit/').$info['id'];?>" class="btn btn-success">编辑</a></td>
 		</tr>
 	<?php } ?>
 </tbody>
@@ -64,7 +66,7 @@ window.onload=function(){
 		responsive: true,
 		"order":[[1,'desc']],
 		"columnDefs":[{
-			"targets":[2],
+			"targets":[3],
 			"orderable": false
 		}]
 	});

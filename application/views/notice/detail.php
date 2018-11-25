@@ -1,9 +1,9 @@
 <?php 
 /**
  * @name V-通知详情
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-03-30
- * @version 2018-10-24
+ * @version 2018-11-24
  */ 
 ?>
 
@@ -26,12 +26,12 @@
 <!-- Page Name-->
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header"><?php echo $info['title']; ?></h1>
+		<h2 class="page-header"><?=$info['title']; ?></h2>
 	</div>
 </div>
 <!-- ./Page Name-->
 
-<?php echo $info['content']; ?> 
+<?=$info['content']; ?> 
 
 <?php $this->load->view('include/footer'); ?>
 

@@ -1,9 +1,9 @@
 <?php 
 /**
  * @name V-修改用户
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-17
- * @version V1.0 2018-02-24
+ * @version 2018-11-24
  */
 ?>
 
@@ -12,7 +12,7 @@
 
 <head>
 	<?php $this->load->view('include/header'); ?>
-	<title>修改用户 / <?php echo $this->config->item('systemName'); ?></title>
+	<title>修改用户 / <?=$this->Setting_model->get('systemName'); ?></title>
 </head>
 
 <body>
@@ -123,6 +123,7 @@ function getAllRole(){
 					roleName=ret.data['list'][i]['name'];
 					$("#roleID").append('<option value="'+roleID+'">'+roleID+'. '+roleName+'</option>');
 				}
+				$("#roleID").val(nowRoleID);
 				return true;
 			}else if(ret.code=="403"){
 				$("#tips").html("Token无效！<hr>Tips:请勿在提交前打开另一页面哦~");

@@ -1,9 +1,9 @@
 <?php 
 /**
  * @name V-发布新通知
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-03-29
- * @version V1.0 2018-04-01
+ * @version 2018-11-24
  */
 ?>
 
@@ -12,7 +12,7 @@
 
 <head>
 	<?php $this->load->view('include/header'); ?>
-	<title>发布新通知 / <?php echo $this->config->item('systemName'); ?></title>
+	<title>发布新通知 / <?=$this->Setting_model->get('systemName'); ?></title>
 </head>
 
 <body>
@@ -36,8 +36,15 @@
 	<div class="panel-body">
 		<div class="form-group">
 			<label for="title">通知标题</label>
-			<input class="form-control" id="title" onkeyup='if(event.keyCode==13)$("#content").focus();'>
+			<input class="form-control" id="title">
 			<p class="help-block">请输入<font color="green">1</font>-<font color="green">50</font>字的通知标题</p>
+		</div>
+		<br>
+		<div class="form-group">
+			<label for="title">通知接收人</label>
+			<input class="form-control" id="receiverName" onclick="$('#selectUserModal').modal('show');" readonly>
+			<input type="hidden" id="receiverIds">
+			<p class="help-block">可选，如不选则代表所有人可看</p>
 		</div>
 		<br>
 		<div class="form-group">
@@ -56,9 +63,55 @@
 </div>
 
 <script>
+var setting = {
+	data: {
+		simpleData: {
+			enable: true
+		}
+	},
+	check: {
+		enable: true
+	},
+	view: {
+		showIcon: showIconForTree
+	}
+};
+
+$(document).ready(function(){
+	$.fn.zTree.init($("#treeDemo"), setting,getUserList());
+});
+
+
+function showIconForTree(treeId,treeNode){
+	return treeNode.level!=0;
+}
+
+function getCheckedNodes(){
+	ids="";j=0;
+	zTree=$.fn.zTree.getZTreeObj("treeDemo");
+	nodes=zTree.getCheckedNodes();
+
+	for(i=0;i<nodes.length;i++){
+		id=nodes[i].id;
+		id=id.toString();
+		
+		if(id.substr(0,2)!="D_"){
+			ids+=id+",";
+			j++;
+		}
+	}
+	
+	ids=ids.substr(0,ids.length-1);
+	console.log(ids);
+	$("#receiverIds").val(ids);
+	$("#receiverName").val("已选择"+j+"人");
+	$("#selectUserModal").modal("hide");
+}
+
 var E = window.wangEditor;
 var editor = new E('#wangEditor_div');
 editor.create();
+$("#title").focus();
 
 $(function(){
 	$('#tipsModal').on('hidden.bs.modal',function (){
@@ -69,6 +122,7 @@ $(function(){
 function publish(){
 	lockScreen();
 	title=$("#title").val();
+	receiverIds=$("#receiverIds").val();
 	content=editor.txt.html();
 	$("#wangEditor_div").attr("style","display:none;");
 	
@@ -90,11 +144,14 @@ function publish(){
 		$("#tipsModal").modal('show');
 		return false;
 	}
+	if(receiverIds==""){
+		receiverIds=",";
+	}
 
 	$.ajax({
-		url:"<?php echo site_url('admin/notice/toPublish'); ?>",
+		url:"<?=base_url('admin/notice/toPublish'); ?>",
 		type:"post",
-		data:{<?php echo $this->ajax->showAjaxToken(); ?>,"title":title,"content":content},
+		data:{<?=$this->ajax->showAjaxToken(); ?>,"title":title,"content":content,"receiverIds":receiverIds},
 		dataType:'json',
 		error:function(e){
 			console.log(JSON.stringify(e));
@@ -126,9 +183,62 @@ function publish(){
 		}
 	});
 }
+
+
+function getUserList(){
+	var rtn=[];
+	lockScreen();
+
+	$.ajax({
+		url:"<?=base_url('api/getDepartmentByZtree3');?>",
+		async:false,
+		dataType:'json',
+		error:function(e){
+			console.log(JSON.stringify(e));
+			unlockScreen();
+			$("#tips").html("服务器错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+e.status+"</font>");
+			$("#tipsModal").modal('show');
+			return false;
+		},
+		success:function(ret){
+			unlockScreen();
+			
+			if(ret.code=="200"){
+				rtn=ret.data;
+			}else if(ret.code=="403"){
+				$("#tips").html("Token无效！<hr>Tips:请勿在提交前打开另一页面哦~");
+				$("#tipsModal").modal('show');
+				return false;
+			}else{
+				$("#tips").html("系统错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+ret.code+"</font>");
+				$("#tipsModal").modal('show');
+				return false;
+			}
+		}
+	});
+	return JSON.parse(rtn);
+}
 </script>
 
 <?php $this->load->view('include/tipsModal'); ?>
+
+<div class="modal fade" id="selectUserModal" style="z-index:99999;">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h3 class="modal-title" id="ModalTitle">用户选择（带★为部门）</h3>
+      </div>
+      <div class="modal-body">
+        <div class="zTreeDemoBackground left">
+        <ul id="treeDemo" class="ztree"></ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick='getCheckedNodes();'>确认 &gt;</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

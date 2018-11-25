@@ -4,13 +4,13 @@
 
 ## 简介 Description
 
-▲ 系统名称：校园学生干部管理系统（基于[`RBAC-Codeigniter框架`](https://github.com/SmallOyster/RBAC-CodeIgniter)）
+▲ 系统名称：校园学生干部管理系统（基于[`自家的RBAC-Codeigniter框架`](https://github.com/SmallOyster/RBAC-CodeIgniter)）
 
 ▲ 开发商：生蚝科技
 
-▲ 代码版本信息：***Build 00321***
+▲ 代码版本信息：***Build 00380***
 
-▲ 系统版本信息：***Developing...***
+▲ 系统版本信息：***V1.0(2018-11-25)***
 
 ▲ 遵循协议：GNU GPLv3
 
@@ -25,8 +25,6 @@
 ## 待开发 TODO
 
 ▲ 奖惩管理
-
-▲ 各种Bug……
 
 ---
 

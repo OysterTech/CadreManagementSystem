@@ -1,25 +1,24 @@
 <?php
 /**
 * @name 邮件配置
-* @author SmallOysyer <master@xshgzs.com>
+* @author Jerry Cheung <master@xshgzs.com>
 * @since 2018-03-04
-* @version V1.0 2018-03-08
+* @version 2018-11-25
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-// QQ邮箱地址(个人邮箱仅需填写QQ号)
-$config['smtp_user'] = '10000';
-// QQ邮箱的16位IMTP授权码
-$config['smtp_pass'] = '****************';
-
+//$config['smtp_host'] = 'ssl://smtp.qq.com';// QQ个人邮箱
+$config['smtp_host'] = 'ssl://smtp.qiye.aliyun.com';// 阿里企业邮箱
+$config['smtp_user'] = '';
+$config['smtp_pass'] = '';// QQ邮箱请输入授权码
 
 /* !!!!!!!!!! 下方配置无需修改 !!!!!!!!!! */
 $config['protocol'] = 'smtp';
 $config['charset'] = 'utf-8';
 $config['wordwrap'] = TRUE;
-$config['smtp_host'] = 'ssl://smtp.qq.com';
 $config['smtp_port'] = 465;
+$config['smtp_timeout'] = '5';
 $config['mailtype'] = 'html';
 $config['crlf']="\r\n";
 $config['newline']="\r\n";

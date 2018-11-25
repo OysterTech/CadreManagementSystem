@@ -1,9 +1,9 @@
 <?php
 /**
  * @name C-通知
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-03-28
- * @version 2018-10-25
+ * @version 2018-11-24
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -18,8 +18,6 @@ class Notice extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		
-		$this->load->library(array('Ajax'));
 		$this->safe->checkPermission();
 		
 		$this->sessPrefix=$this->safe->getSessionPrefix();
@@ -52,7 +50,7 @@ class Notice extends CI_Controller {
 	{
 		$this->ajax->makeAjaxToken();
 		
-		$this->load->view('admin/notice/pub',[]);
+		$this->load->view('admin/notice/pub');
 	}
 
 
@@ -63,10 +61,16 @@ class Notice extends CI_Controller {
 		
 		$title=$this->input->post('title');
 		$content=$this->input->post('content');
+		$receiver=$this->input->post('receiverIds');
 		
 		$nowNickName=$this->session->userdata($this->sessPrefix.'nickName');
-		$sql="INSERT INTO notice(title,content,create_user) VALUES (?,?,?)";
-		$query=$this->db->query($sql,[$title,$content,$nowNickName]);
+		$query=$this->db->get_where('archive',array('user_id'=>$this->nowUserID));
+		$info=$query->result_array();
+		
+		$realName=$info[0]['name'];
+
+		$sql="INSERT INTO notice(title,content,receiver,create_user) VALUES (?,?,?,?)";
+		$query=$this->db->query($sql,[$title,$content,$receiver,$realName]);
 
 		if($this->db->affected_rows()==1){
 			$ret=$this->ajax->returnData("200","success");
@@ -103,7 +107,7 @@ class Notice extends CI_Controller {
 		$info=$this->Notice_model->get($id);
 	 
 		if($info==array()){
-	 		header("Location:".site_url('/'));
+	 		header("Location:".base_url('/'));
 	 	}
 	 
 		$this->load->view('notice/detail',['info'=>$info[0]]);

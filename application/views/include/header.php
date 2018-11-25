@@ -13,7 +13,7 @@
 <link rel="stylesheet" href="https://cdn.bootcss.com/zTree.v3/3.5.28/css/zTreeStyle/zTreeStyle.min.css">
 <link rel="stylesheet" href="https://cdn.bootcss.com/wangEditor/10.0.13/wangEditor.css">
 <link rel="stylesheet" src="<?=base_url('resource/css/dataTables.responsive.css'); ?>">
-
+<!-- ./CSS -->
 
 <!-- JS -->
 <script src="https://cdn.bootcss.com/jquery/3.1.0/jquery.min.js"></script>
@@ -30,3 +30,16 @@
 <script src="https://cdn.bootcss.com/wangEditor/10.0.13/wangEditor.min.js"></script>
 <script src="<?=base_url('resource/js/dataTables.responsive.js'); ?>"></script>
 <script src="<?=base_url('resource/js/utils.js'); ?>"></script>
+<!-- ./JS -->
+
+<!-- 百度统计 -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?51648db7eb596a2b38fee2b8dfe1b2c2";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<!-- ./百度统计 -->

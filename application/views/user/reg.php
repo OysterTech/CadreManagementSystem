@@ -1,9 +1,9 @@
 <?php 
 /**
  * @name V-用户注册
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-22
- * @version 2018-03-31
+ * @version 2018-11-24
  */
 ?>
 
@@ -25,17 +25,17 @@
 	<div class="col-md-6 col-md-offset-3">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">欢迎注册<?php echo $this->config->item('systemName'); ?></h3>
+				<h3 class="panel-title">欢迎注册<?=$this->Setting_model->get('systemName');?></h3>
 			</div>
 			<div class="panel-body">
 				<div class="form-group">
-					<label for="userName">用户名</label>
+					<label for="userName">登录用户名</label>
 					<input class="form-control" id="userName" onkeyup='if(event.keyCode==13)$("#nickName").focus();'>
 					<p class="help-block">请输入<font color="green">4</font>-<font color="green">20</font>字的用户名</p>
 				</div>
 				<br>
 				<div class="form-group">
-					<label for="nickName">昵称</label>
+					<label for="nickName">真实姓名</label>
 					<input class="form-control" id="nickName" onkeyup='if(event.keyCode==13)$("#pwd").focus();'>
 				</div>
 
@@ -64,6 +64,7 @@
 				<div class="form-group">
 					<label for="email">邮箱</label>
 					<input type="email" class="form-control" id="email" onkeyup='if(event.keyCode==13)reg();'>
+					<p class="help-block">用于忘记密码时获取验证码</p>
 				</div>
 				<button class="btn btn-lg btn-success btn-block" onclick='reg();'>注册 Register &gt;</button>
 			</div>
@@ -71,9 +72,19 @@
 	</div>
 </div>
 
-<?php $this->load->view('include/footer'); ?>
+<?php $this->load->view('/include/footer'); ?>
 
 <script>
+function haveChn(txt){
+	r=new RegExp("[\\u4E00-\\u9FFF]+","g");
+	if(r.test(txt)){
+		return true;
+	}else{
+		return false;
+	}
+}
+
+
 function reg(){
 	lockScreen();
 	userName=$("#userName").val();
@@ -95,9 +106,15 @@ function reg(){
 		$("#tipsModal").modal('show');
 		return false;
 	}
-	if(nickName==""){
+	if(haveChn(userName)){
 		unlockScreen();
-		$("#tips").html("请输入昵称！");
+		$("#tips").html("用户名不得含有汉字！");
+		$("#tipsModal").modal('show');
+		return false;	
+	}
+	if(nickName=="" || nickName.length>5 || nickName.length<2){
+		unlockScreen();
+		$("#tips").html("请正确输入真实姓名！");
 		$("#tipsModal").modal('show');
 		return false;
 	}
@@ -147,9 +164,9 @@ function reg(){
 	}
 
 	$.ajax({
-		url:"<?php echo site_url('user/toReg'); ?>",
+		url:"<?=base_url('user/toReg');?>",
 		type:"post",
-		data:{<?php echo $this->ajax->showAjaxToken(); ?>,"userName":userName,"nickName":nickName,"phone":phone,"email":email,"pwd":pwd},
+		data:{<?=$this->ajax->showAjaxToken();?>,"userName":userName,"nickName":nickName,"phone":phone,"email":email,"pwd":pwd},
 		dataType:'json',
 		error:function(e){
 			console.log(e);
@@ -162,8 +179,8 @@ function reg(){
 			unlockScreen();
 			
 			if(ret.code=="200"){
-				alert("注册成功！即将跳转至登录页面！");
-				window.location.href="<?php echo site_url('user/login'); ?>";
+				alert("注册成功！请登记您的个人档案！");
+				window.location.href=ret.data['url'];
 				return true;
 			}else if(ret.message=="regFailed"){
 				$("#tips").html("注册失败！！！");

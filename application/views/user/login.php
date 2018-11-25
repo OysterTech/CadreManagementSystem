@@ -1,9 +1,9 @@
 <?php 
 /**
  * @name V-登录
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-20
- * @version 2018-10-24
+ * @version 2018-11-24
  */
 ?>
 
@@ -43,7 +43,7 @@
 					</label>
 				</div>
 				<center>
-					<!--a href="<?=base_url('user/reg'); ?>" target="_blank" class="btn btn-primary" style="width:48%">注册 / Register</a--> <button class="btn btn-success" style="width:98%" onclick='toLogin();'>登录 / Login &gt;</button>
+					<button class="btn btn-success" style="width:98%" onclick='toLogin();'>登录 / Login &gt;</button>
 				</center>
 			</div>
 		</div>
@@ -57,24 +57,26 @@ var isAjaxing=0;
 
 // 监听模态框关闭事件
 $(function (){
-	$('#tipsModal').on('hidden.bs.modal',function (){
+	$('#tipsModal').on('hidden.bs.modal',function(){
 		isAjaxing=0;
 	});
 });
 
-window.onload=function(){
-  
-  /********** ▼ 记住密码 ▼ **********/
-  Remember=getCookie("<?=$this->sessPrefix;?>RmUN");
-  if(Remember!=null){
-    $("#userName").val(Remember);
-    $("#pwd").focus();
-    $("#Remember").attr("checked",true);
-  }else{
-    $("#userName").focus();
-  }
-  /********** ▲ 记住密码 ▲ **********/
+
+window.onload=function(){  
+	/********** ▼ 记住密码 ▼ **********/
+	Remember=getCookie("<?=$this->sessPrefix;?>RmUN");
+	
+	if(Remember!=null){
+		$("#userName").val(Remember);
+		$("#pwd").focus();
+		$("#Remember").attr("checked",true);
+	}else{
+		$("#userName").focus();
+	}
+	/********** ▲ 记住密码 ▲ **********/
 }
+
 
 function toLogin(){
 	
@@ -100,35 +102,31 @@ function toLogin(){
 	/********** ▲ 记住密码 ▲ **********/
 
 	if(userName==""){
-		$("#tips").html("请输入用户名！");
+		showTipsModal("请输入用户名！");
 		unlockScreen();
 		$("#userName").removeAttr("disabled");
 		$("#pwd").removeAttr("disabled");
-		$("#tipsModal").modal('show');
 		return false;
 	}
 	if(userName.length<4){
-		$("#tips").html("用户名长度有误！");
+		showTipsModal("用户名长度有误！");
 		unlockScreen();
 		$("#userName").removeAttr("disabled");
 		$("#pwd").removeAttr("disabled");
-		$("#tipsModal").modal('show');
 		return false;
 	}
 	if(pwd==""){
-		$("#tips").html("请输入密码！");
+		showTipsModal("请输入密码！");
 		unlockScreen();
 		$("#userName").removeAttr("disabled");
 		$("#pwd").removeAttr("disabled");
-		$("#tipsModal").modal('show');
 		return false;
 	}
 	if(pwd.length<6){
-		$("#tips").html("密码长度有误！");
+		showTipsModal("密码长度有误！");
 		unlockScreen();
 		$("#userName").removeAttr("disabled");
 		$("#pwd").removeAttr("disabled");
-		$("#tipsModal").modal('show');
 		return false;  
 	}
 
@@ -143,8 +141,7 @@ function toLogin(){
 			$("#userName").removeAttr("disabled");
 			$("#pwd").removeAttr("disabled");
 			$("#delModal").modal('hide');
-			$("#tips").html("服务器错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+e.status+"</font>");
-			$("#tipsModal").modal('show');
+			showTipsModal("服务器错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+e.status+"</font>");
 			return false;
 		},
 		success:function(ret){
@@ -155,33 +152,26 @@ function toLogin(){
 			if(ret.code==200){
 				window.location.href="<?=base_url('/');?>"
 			}else if(ret.message=="userForbidden"){
-				$("#tips").html("当前用户被禁用！<br>请联系管理员！");
-				$("#tipsModal").modal('show');
+				showTipsModal("当前用户被禁用！<br>请联系管理员！");
 				return false;
 			}else if(ret.message=="invaildPwd"){
-				$("#tips").html("用户名或密码错误！");
-				$("#tipsModal").modal('show');
+				showTipsModal("用户名或密码错误！");
 				return false;
 			}else if(ret.message=="userForbidden"){
-				$("#tips").html("用户被禁用！<br>请联系管理员！");
-				$("#tipsModal").modal('show');
+				showTipsModal("用户被禁用！<br>请联系管理员！");
 				return false;
 			}else if(ret.message=="userNotActive"){
-				$("#tips").html("用户暂未激活！<br>请尽快进行激活！");
-				$("#tipsModal").modal('show');
+				showTipsModal("用户暂未激活！<br>请尽快进行激活！");
 				return false;
 			}else if(ret.message=="noRoleInfo"){
-				$("#tips").html("获取角色信息失败！请联系管理员！");
-				$("#tipsModal").modal('show');
+				showTipsModal("获取角色信息失败！请联系管理员！");
 				return false;
 			}else if(ret.code=="403"){
-				$("#tips").html("Token无效！<hr>Tips:请勿在提交前打开另一页面哦~");
-				$("#tipsModal").modal('show');
+				showTipsModal("Token无效！<hr>Tips:请勿在提交前打开另一页面哦~");
 				return false;
 			}else{
 				console.log(ret);
-				$("#tips").html("系统错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+ret.code+"</font>");
-				$("#tipsModal").modal('show');
+				showTipsModal("系统错误！<hr>请联系技术支持并提交以下错误码：<br><font color='blue'>"+ret.code+"</font>");
 				return false;
 			}
 		}  

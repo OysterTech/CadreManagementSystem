@@ -1,14 +1,14 @@
 <?php
 /**
- * @name C-Worklog工作记录
+ * @name C-Reward奖惩
  * @author Jerry Cheung <master@xshgzs.com>
- * @since 2018-11-02
- * @version 2018-11-25
+ * @since 2018-11-17
+ * @version 2018-11-17
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Worklog extends CI_Controller {
+class Reward extends CI_Controller {
 
 	public $allMenu;
 	public $sessPrefix;
@@ -44,7 +44,7 @@ class Worklog extends CI_Controller {
 			header("location:".base_url("/"));
 		}
 		
-		$query=$this->db->get_where('work_log',array('user_id'=>$id));
+		$query=$this->db->get_where('reward',array('user_id'=>$id));
 		$info=$query->result_array();
 
 		$this->load->view('workLog/list',['list'=>$info,'name'=>$name]);
@@ -127,55 +127,6 @@ class Worklog extends CI_Controller {
 			die($ret);
 		}else{
 			$ret=$this->ajax->returnData("0","addFailed");
-			die($ret);
-		}
-	}
-	
-	
-	public function edit($logId=0)
-	{
-		$this->ajax->makeAjaxToken();
-		$query=$this->db->query("SELECT a.*,b.name AS real_name FROM work_log a,archive b WHERE a.id=? AND a.user_id=b.id",[$logId]);
-		$list=$query->result_array();
-		
-		if(count($list)!=1){
-			header("location:".base_url());
-		}
-		
-		$list[0]['photo_url']=json_decode($list[0]['photo_url'],TRUE);
-		$this->session->set_userdata($this->sessPrefix."workLog_editId",$logId);
-		
-		$this->load->view('workLog/edit',['info'=>$list[0]]);
-	}
-
-
-	public function toEdit()
-	{
-		$token=$this->input->post('token');
-		$this->ajax->checkAjaxToken($token);
-		
-		$beginDate=$this->input->post('beginDate');
-		$endDate=$this->input->post('endDate');
-		$workHour=$this->input->post('workHour');
-		$content=$this->input->post('content');
-		$photoUrl=$this->input->post('photoUrl');
-		
-		$data=array(
-			'begin_time'=>$beginDate,
-			'end_time'=>$endDate,
-			'work_hour'=>$workHour,
-			'content'=>$content,
-			'photo_url'=>$photoUrl
-		);
-		$this->db->where('id',$this->session->userdata($this->sessPrefix."workLog_editId"));
-		$this->db->update('work_log',$data);
-
-		if($this->db->affected_rows()==1){
-			$this->session->unset_userdata($this->sessPrefix."workLog_editId");
-			$ret=$this->ajax->returnData("200","success");
-			die($ret);
-		}else{
-			$ret=$this->ajax->returnData("0","editFailed");
 			die($ret);
 		}
 	}

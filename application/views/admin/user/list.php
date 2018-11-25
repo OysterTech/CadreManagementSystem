@@ -1,9 +1,9 @@
 <?php 
 /**
  * @name V-用户列表
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-14
- * @version V1.0 2018-04-01
+ * @version 2018-11-24
  */
 ?>
 
@@ -12,7 +12,7 @@
 
 <head>
 	<?php $this->load->view('include/header'); ?>
-	<title>用户列表 / <?php echo $this->config->item('systemName'); ?></title>
+	<title>用户列表 / <?=$this->Setting_model->get('systemName'); ?></title>
 </head>
 
 <body>
@@ -27,7 +27,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">用户列表</h1>
-		<a href="<?php echo site_url('admin/user/add'); ?>" class="btn btn-primary btn-block">新 增 用 户</a>
+		<a href="<?=base_url('admin/user/add'); ?>" class="btn btn-primary btn-block">新 增 用 户</a>
 		<hr>
 	</div>
 </div>
@@ -45,18 +45,18 @@
 	<tbody>
 		<?php foreach($list as $info){ ?>
 		<tr>
-			<td><?php echo $info['user_name']; ?></td>
-			<td><?php echo $info['nick_name']; ?></td>
+			<td><?=$info['user_name']; ?></td>
+			<td><?=$info['nick_name']; ?></td>
 			<td>
 				<?php if($info['status']==0){ ?>
-				<a onclick='updateStatus_ready("<?php echo $info['id']; ?>","<?php echo $info['nick_name']; ?>",1);'><font color="red">已禁用</font></a>
+				<a onclick='updateStatus_ready("<?=$info['id']; ?>","<?=$info['nick_name']; ?>",1);'><font color="red">已禁用</font></a>
 				<?php }elseif($info['status']==1){ ?>
-				<a onclick='updateStatus_ready("<?php echo $info['id']; ?>","<?php echo $info['nick_name']; ?>",0);'><font color="green">正常</font></a>
+				<a onclick='updateStatus_ready("<?=$info['id']; ?>","<?=$info['nick_name']; ?>",0);'><font color="green">正常</font></a>
 				<?php }elseif($info['status']==2){ ?>
 				<font color="blue">未激活</font>
 				<?php } ?>
 			</td>
-			<td><a href="<?php echo site_url('admin/user/edit/').$info['id']; ?>" class="btn btn-info">编辑</a> <a onclick='resetPwd_ready("<?php echo $info['id']; ?>","<?php echo $info['nick_name']; ?>")' class="btn btn-warning">重置密码</a> <a onclick='del_ready("<?php echo $info['id']; ?>","<?php echo $info['nick_name']; ?>")' class="btn btn-danger">删除</a></td>
+			<td><a href="<?=base_url('admin/user/edit/').$info['id']; ?>" class="btn btn-info">编辑</a> <a onclick='resetPwd_ready("<?=$info['id']; ?>","<?=$info['nick_name']; ?>")' class="btn btn-warning">重置密码</a> <a onclick='del_ready("<?=$info['id']; ?>","<?=$info['nick_name']; ?>")' class="btn btn-danger">删除</a></td>
 		</tr>
 	<?php } ?>
 	</tbody>
@@ -109,10 +109,10 @@ function updateStatus_sure(){
 	lockScreen();
 
 	$.ajax({
-		url:"<?php echo site_url('admin/user/toUpdateStatus'); ?>",
+		url:"<?=base_url('admin/user/toUpdateStatus'); ?>",
 		type:"post",
 		dataType:"json",
-		data:{<?php echo $this->ajax->showAjaxToken(); ?>,"id":statusID,"status":statusNum},
+		data:{<?=$this->ajax->showAjaxToken(); ?>,"id":statusID,"status":statusNum},
 		error:function(e){
 			console.log(e);
 			unlockScreen();
@@ -163,10 +163,10 @@ function resetPwd_sure(){
 	id=$("#resetID").val();
 	
 	$.ajax({
-		url:"<?php echo site_url('admin/user/toResetPwd'); ?>",
+		url:"<?=base_url('admin/user/toResetPwd'); ?>",
 		type:"post",
 		dataType:"json",
-		data:{<?php echo $this->ajax->showAjaxToken(); ?>,"id":id},
+		data:{<?=$this->ajax->showAjaxToken(); ?>,"id":id},
 		error:function(e){
 			console.log(e);
 			unlockScreen();
@@ -223,10 +223,10 @@ function del_sure(){
 	id=$("#delID").val();
 
 	$.ajax({
-		url:"<?php echo site_url('admin/user/toDelete'); ?>",
+		url:"<?=base_url('admin/user/toDelete'); ?>",
 		type:"post",
 		dataType:"json",
-		data:{<?php echo $this->ajax->showAjaxToken(); ?>,"id":id},
+		data:{<?=$this->ajax->showAjaxToken(); ?>,"id":id},
 		error:function(e){
 			console.log(e);
 			unlockScreen();

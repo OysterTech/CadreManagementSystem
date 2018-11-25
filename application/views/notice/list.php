@@ -1,9 +1,9 @@
 <?php 
 /**
  * @name V-通知列表
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-07-19
- * @version V1.0 2018-07-19
+ * @version 2018-11-24
  */ 
 ?>
 
@@ -12,7 +12,7 @@
 
 <head>
 	<?php $this->load->view('include/header'); ?>
-	<title>通知列表 / <?php echo $this->Setting_model->get('systemName'); ?></title>
+	<title>通知列表 / <?=$this->Setting_model->get('systemName'); ?></title>
 </head>
 
 <body>
@@ -43,9 +43,9 @@
 	<tbody>
 	<?php foreach($list as $info){ ?>
 		<tr>
-			<td><a href="<?=base_url('notice/detail/').$info['id'];?>"><?php echo $info['title']; ?></a></td>
-			<td><?php echo $info['create_user']; ?></td>
-			<td><?php echo $info['create_time']; ?></td>
+			<td><a href="<?=base_url('notice/detail/').$info['id'];?>"><?=$info['title']; ?></a></td>
+			<td><?=$info['create_user']; ?></td>
+			<td><?=$info['create_time']; ?></td>
 		</tr>
 	<?php } ?>
 	</tbody>

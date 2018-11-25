@@ -1,9 +1,9 @@
 <?php
 /**
 * @name M-通知
-* @author SmallOysyer <master@xshgzs.com>
+* @author Jerry Cheung <master@xshgzs.com>
 * @since 2018-03-25
-* @version V1.0 2018-03-30
+* @version 2018-11-24
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -12,6 +12,8 @@ class Notice_model extends CI_Model {
 
 	public function __construct() {
 		parent::__construct();
+		$this->sessPrefix=$this->safe->getSessionPrefix();
+		$this->nowUserID=$this->session->userdata($this->sessPrefix.'userID');
 	}
 	
 	
@@ -23,7 +25,7 @@ class Notice_model extends CI_Model {
 	 */
 	public function get($id=0,$type="")
 	{
-		$sql='SELECT * FROM notice WHERE 1=1 ';
+		$sql='SELECT * FROM notice WHERE (receiver="," OR receiver LIKE "%'.$this->nowUserID.'%") ';
 		
 		if($id>0){
 			$sql.='AND id=? ';
@@ -46,7 +48,7 @@ class Notice_model extends CI_Model {
 		}else{
 			return array();
 		}
-		
+
 		$query=$this->db->query($sql,$data);
 		$list=$query->result_array();
 		

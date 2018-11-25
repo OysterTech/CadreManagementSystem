@@ -1,9 +1,9 @@
 <?php 
 /**
  * @name V-新增用户
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-14
- * @version V1.0 2018-02-24
+ * @version 2018-11-24
  */
 ?>
 
@@ -12,7 +12,7 @@
 
 <head>
 	<?php $this->load->view('include/header'); ?>
-	<title>新增用户 / <?php echo $this->config->item('systemName'); ?></title>
+	<title>新增用户 / <?=$this->Setting_model->get('systemName'); ?></title>
 </head>
 
 <body>

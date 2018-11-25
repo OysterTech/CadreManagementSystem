@@ -3,7 +3,7 @@
  * @name 全局路由
  * @author CodeIgniter,Jerry Cheung 
  * @since 2018-02-06
- * @version 2018-11-03
+ * @version 2018-11-24
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -70,12 +70,12 @@ $route['admin/notice/toDelete']['POST']='Notice/toDelete';
 $route['notice/detail/(:num)']='Notice/showDetail/$1';
 
 /************* RBAC-User **************/
-$route['user/updateProfile']='User/updateProfile';
-$route['user/toUpdateProfile']['POST']='User/toUpdateProfile';
+$route['user/updateArchive']='User/updateArchive';
+$route['user/toUpdateArchive']['POST']='User/toUpdateArchive';
 $route['user/login']='User/login';
 $route['user/toLogin']['POST']='User/toLogin';
 $route['user/logout']='User/logout';
-$route['user/reg']='User/register';
+$route['user/user/cadreReg']='User/cadreRegister';
 $route['user/toReg']['POST']='User/toRegister';
 $route['user/reg/verify/(:any)']='User/verifyRegister/$1';
 $route['user/forgetPwd']='User/forgetPassword';
@@ -86,7 +86,9 @@ $route['user/toResetPwd']['POST']='User/toResetPassword';
 
 /************* API **************/
 $route['api/getDepartmentByZtree']='API/API_Department/getDepartmentByZtree';
-$route['api/getProfile']['POST']='API/API_Profile/getProfile';
+$route['api/getDepartmentByZtree2']='API/API_Department/getDepartmentByZtree2';
+$route['api/getDepartmentByZtree3']='API/API_Department/getDepartmentByZtree3';
+$route['api/getArchive']['POST']='API/API_Archive/getArchive';
 
 /************* WorkLog **************/
 $route['workLog/detail/(:num)']='Worklog/showDetail/$1';
@@ -97,3 +99,5 @@ $route['workLog/my/add']='Worklog/myAdd';
 $route['workLog/member/choose']='Worklog/chooseMember';
 $route['workLog/member/list/(:num)']='Worklog/list/$1';
 $route['workLog/member/add']='Worklog/memberAdd';
+$route['workLog/edit/(:num)']='Worklog/edit/$1';
+$route['workLog/toEdit']['POST']='Worklog/toEdit';

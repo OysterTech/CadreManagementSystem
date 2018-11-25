@@ -25,10 +25,12 @@ $allNotice=$this->Notice_model->get(0,"nav");
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="<?php echo base_url(); ?>"><?php echo $this->Setting_model->get('systemName'); ?></a>
+		<a class="navbar-brand" href="<?=base_url(); ?>"><?=$this->Setting_model->get('systemName'); ?></a>
 	</div>
-	<!-- dropdown-head-right -->
+	
+	<!-- 导航栏-右侧小功能 -->
 	<ul class="nav navbar-top-links navbar-right">
+		<!-- 导航栏-通知板块 -->
 		<li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 				<i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
@@ -37,14 +39,14 @@ $allNotice=$this->Notice_model->get(0,"nav");
 				<?php if(count($allNotice)!=0){ ?>
 				<?php foreach($allNotice as $info){ ?>
 				<li>
-					<a href="<?php echo base_url('notice/detail/').$info['id']; ?>" target="_blank">
+					<a href="<?=base_url('notice/detail/').$info['id']; ?>" target="_blank">
 						<div>
-							<b><font color="#FF9800"><?php echo $info['create_user']; ?></font></b>
+							<b><font color="#FF9800"><?=$info['create_user']; ?></font></b>
 							<span class="pull-right text-muted">
-								<em><?php echo $info['create_time']; ?></em>
+								<em><?=$info['create_time']; ?></em>
 							</span>
 						</div>
-						<div><?php echo $info['title']; ?></div>
+						<div><?=$info['title']; ?></div>
 					</a>
 				</li>
 				<li class="divider"></li>
@@ -56,15 +58,16 @@ $allNotice=$this->Notice_model->get(0,"nav");
 				<li class="divider"></li>
 				<?php } ?>
 				<li>
-					<a class="text-center" href="<?php echo base_url('notice/list'); ?>">
+					<a class="text-center" href="<?=base_url('notice/list'); ?>">
 						<b>阅 读 所 有 公 告</b>
 						<i class="fa fa-angle-right"></i>
 					</a>
 				</li>
 			</ul>
 		</li>
-		<!-- /.dropdown-messages -->
+		<!-- ./导航栏-通知板块 -->
 		
+		<!-- 导航栏-账户管理板块 -->
 		<li class="dropdown">
 			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 				<i class="fa fa-user fa-lg"></i>
@@ -72,32 +75,32 @@ $allNotice=$this->Notice_model->get(0,"nav");
 			</a>
 			<ul class="dropdown-menu">
 				<li>
-					<a href="javascript:void(0)"><b><font color="green"><?php echo $this->session->userdata($this->sessPrefix.'nickName'); ?></font></b>，<?php echo getGreeting(); ?></a>
+					<a href="javascript:void(0)"><b><font color="green"><?=$this->session->userdata($this->sessPrefix.'nickName'); ?></font></b>，<?=getGreeting(); ?></a>
 				</li>
 				<li>
-					<a href="javascript:void(0)">角色：<b><font color="#F57C00"><?php echo $this->session->userdata($this->sessPrefix.'roleName'); ?></font></b></a>
+					<a href="javascript:void(0)">角色：<b><font color="#F57C00"><?=$this->session->userdata($this->sessPrefix.'roleName'); ?></font></b></a>
 				</li>
 				<li class="divider"></li>
 				<li>
-					<a href="<?php echo base_url('user/updateProfile'); ?>">
-						<i class="fa fa-user fa-fw"></i>修改个人资料</a>
+					<a href="<?=base_url('user/updateProfile'); ?>">
+						<i class="fa fa-user fa-fw"></i>修改登录用户资料(密码)</a>
 				</li>
 				<li>
-					<a href="<?php echo base_url('user/logout'); ?>">
+					<a href="<?=base_url('user/logout'); ?>">
 						<i class="fa fa-sign-out fa-fw"></i>登出系统</a>
 				</li>
 			</ul>
 		</li>
-		<!-- /.dropdown-user -->
+		<!-- ./导航栏-账户管理板块 -->
 	</ul>
-	<!-- /.dropdown-head-right -->
+	<!-- ./导航栏-右侧小功能 -->
 
 	<!-- navbar-main -->
 	<div class="navbar-default sidebar" role="navigation">
 		<div class="sidebar-nav navbar-collapse">
 			<ul class="nav" id="side-menu">
 				<li>
-					<a href="<?php echo base_url(); ?>">
+					<a href="<?=base_url();?>">
 						<i class="fa fa-home"></i> 主页面</a>
 				</li>
 				
@@ -108,9 +111,9 @@ $allNotice=$this->Notice_model->get(0,"nav");
 					// 没有二级菜单
 				?>
 					<li>
-						<a href="<?php echo base_url($info['uri']); ?>">
-							<i class="fa fa-<?php echo $info['icon']; ?>" aria-hidden="true"></i>
-							<?php echo $info['name']; ?>
+						<a href="<?=base_url($info['uri']); ?>">
+							<i class="fa fa-<?=$info['icon']; ?>" aria-hidden="true"></i>
+							<?=$info['name']; ?>
 						</a>
 					</li>
 					<!-- ./父菜单 -->
@@ -120,8 +123,8 @@ $allNotice=$this->Notice_model->get(0,"nav");
 				?>
 					<li>
 						<a href="#">
-							<i class="fa fa-<?php echo $info['icon']; ?>" aria-hidden="true"></i>
-							<?php echo $info['name']; ?>
+							<i class="fa fa-<?=$info['icon']; ?>" aria-hidden="true"></i>
+							<?=$info['name']; ?>
 							<span class="fa arrow"></span>
 						</a>
 						<ul class="nav nav-second-level">
@@ -132,9 +135,9 @@ $allNotice=$this->Notice_model->get(0,"nav");
 							// 没有三级菜单
 						?>
 							<li>
-								<a href="<?php echo base_url($child_info['uri']); ?>">
-									<i class="fa fa-<?php echo $child_info['icon']; ?>" aria-hidden="true"></i>
-									<?php echo $child_info['name']; ?>
+								<a href="<?=base_url($child_info['uri']); ?>">
+									<i class="fa fa-<?=$child_info['icon']; ?>" aria-hidden="true"></i>
+									<?=$child_info['name']; ?>
 								</a>
 							</li>
 							<!-- ./二级菜单 -->
@@ -144,8 +147,8 @@ $allNotice=$this->Notice_model->get(0,"nav");
 						?>
 							<li>
 								<a href="#">
-									<i class="fa fa-<?php echo $child_info['icon']; ?>" aria-hidden="true"></i>
-									<?php echo $child_info['name']; ?>
+									<i class="fa fa-<?=$child_info['icon']; ?>" aria-hidden="true"></i>
+									<?=$child_info['name']; ?>
 									<span class="fa arrow"></span>
 								</a>
 								<ul class="nav nav-third-level">
@@ -154,9 +157,9 @@ $allNotice=$this->Notice_model->get(0,"nav");
 									foreach($child_info['child'] as $child2_info){
 									?>
 									<li>
-										<a href="<?php echo base_url($child2_info['uri']); ?>">
-											<i class="fa fa-<?php echo $child2_info['icon']; ?>" aria-hidden="true"></i>
-											<?php echo $child2_info[ 'name']; ?>
+										<a href="<?=base_url($child2_info['uri']); ?>">
+											<i class="fa fa-<?=$child2_info['icon']; ?>" aria-hidden="true"></i>
+											<?=$child2_info[ 'name']; ?>
 										</a>
 									</li>
 									<!-- ./三级菜单 -->
