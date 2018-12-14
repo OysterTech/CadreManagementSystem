@@ -1,9 +1,9 @@
 <?php
 /**
 * @name M-系统配置
-* @author SmallOysyer <master@xshgzs.com>
+* @author Jerry Cheung <master@xshgzs.com>
 * @since 2018-03-05
-* @version V1.0 2018-03-14
+* @version 2018-11-29
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -43,8 +43,7 @@ class Setting_model extends CI_Model {
 	 */
 	public function get($name)
 	{
-		$sql="SELECT value FROM setting WHERE name=?";
-		$query=$this->db->query($sql,[$name]);
+		$query=$this->db->get_where("setting",["name"=>$name]);
 		
 		if($query->num_rows()==1){
 			$list=$query->result_array();
@@ -61,10 +60,8 @@ class Setting_model extends CI_Model {
 	 */
 	public function list()
 	{
-		$sql="SELECT * FROM setting";
-		$query=$this->db->query($sql,[]);
+		$query=$this->db->get("setting");
 		$list=$query->result_array();
 		return $list;
 	}
-
 }

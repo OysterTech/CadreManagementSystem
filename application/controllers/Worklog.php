@@ -3,7 +3,7 @@
  * @name C-Worklog工作记录
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-11-02
- * @version 2018-11-25
+ * @version 2018-11-27
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -112,11 +112,17 @@ class Worklog extends CI_Controller {
 		$this->ajax->checkAjaxToken($token);
 		
 		$userId=$this->input->post('userId');
+		$beginDate=$this->input->post('beginDate');
+		$endDate=$this->input->post('endDate');
+		$workHour=$this->input->post('workHour');
 		$content=$this->input->post('content');
 		$photoUrl=$this->input->post('photoUrl');
 		
 		$data=array(
 			'user_id'=>$userId,
+			'begin_time'=>$beginDate,
+			'end_time'=>$endDate,
+			'work_hour'=>$workHour,
 			'content'=>$content,
 			'photo_url'=>$photoUrl
 		);

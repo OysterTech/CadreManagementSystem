@@ -34,9 +34,9 @@
 <table id="table" class="table table-striped table-bordered table-hover" style="border-radius: 5px; border-collapse: separate;">
 	<thead>
 		<tr>
-			<th>工作内容</th>
-			<th>工作时间</th>
-			<th>工作时长</th>
+			<th>内容</th>
+			<th>开始时间</th>
+			<th>时长</th>
 			<th>操作</th>
 		</tr>
 	</thead>
@@ -44,7 +44,7 @@
 	<tbody>
 	<?php foreach($list as $info){ ?>
 		<tr>
-			<td><?php if(strlen($info['content'])>30){echo substr($info['content'],0,30)."...";}else{echo $info['content'];} ?></td>
+			<td><?php if(strlen($info['content'])>21){echo substr($info['content'],0,21)."...";}else{echo $info['content'];} ?></td>
 			<td><?=substr($info['begin_time'],0,10)."<br>".substr($info['begin_time'],11,5);?></td>
 			<td><?=$info['work_hour'];?></td>
 			<td><a href="<?=base_url('workLog/detail/').$info['id'];?>" class="btn btn-info">详细</a> <a href="<?=base_url('workLog/edit/').$info['id'];?>" class="btn btn-success">编辑</a></td>

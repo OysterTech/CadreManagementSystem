@@ -1,9 +1,9 @@
 <?php
 /**
 * @name C-显示
-* @author SmallOysyer <master@xshgzs.com>
+* @author Jerry Cheung <master@xshgzs.com>
 * @since 2018-02-06
-* @version V1.0 2018-02-25
+* @version 2018-11-28
 */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -20,17 +20,15 @@ class Show extends CI_Controller {
 		parent::__construct();
 		
 		$this->sessPrefix=$this->safe->getSessionPrefix();
-		$roleID=$this->session->userdata($this->sessPrefix."roleID");
 		$this->allMenu=$this->RBAC_model->getAllMenuByRole($roleID);
 		
-		$this->nowUserID=$this->session->userdata($this->sessPrefix.'userID');
 		$this->nowUserName=$this->session->userdata($this->sessPrefix.'userName');
 	}
 
 
 	public function blank()
 	{
-		$this->load->view('show/blank',[]);
+		$this->load->view('show/blank');
 	}
 
 

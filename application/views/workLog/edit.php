@@ -203,6 +203,12 @@ function toEdit(){
 	beginDate=beginDate+" "+beginHour+":00";
 	endDate=endDate+" "+endHour+":00";
 
+	if(beginDate=="" || beginHour==null || endDate=="" || endHour==null){
+		unlockScreen();
+		showTipsModal("请正确选择工作时间！");
+		return false;
+	}
+
 	if(content.length>400 || content.length<10){
 		unlockScreen();
 		showTipsModal("请输入10~400字的工作内容介绍！");

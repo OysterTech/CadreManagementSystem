@@ -3,7 +3,7 @@
  * @name C-Archive个人档案
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-10-25
- * @version 2018-11-18
+ * @version 2018-11-29
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -34,7 +34,7 @@ class Archive extends CI_Controller {
 		$this->ajax->makeAjaxToken();
 		
 		if($this->session->userdata($this->sessPrefix."reg_userId")<1){
-			header("Location:".base_url());
+			header("Location:".base_url('user/logout'));
 		}
 
 		$name=$this->session->userdata($this->sessPrefix."reg_realName");

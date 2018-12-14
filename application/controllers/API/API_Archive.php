@@ -1,10 +1,10 @@
 <?php
 /**
-* @name A-Archive-档案API
-* @author Jerry Cheung <master@xshgzs.com>
-* @since 2018-10-28
-* @version 2018-11-04
-*/
+ * @name A-Archive-档案API
+ * @author Jerry Cheung <master@xshgzs.com>
+ * @since 2018-10-28
+ * @version 2018-12-06
+ */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -27,7 +27,7 @@ class API_Archive extends CI_Controller {
 		$this->ajax->checkAjaxToken($token);
 		
 		$id=$this->input->post('id');
-		$query=$this->db->get_where('archive',array('id'=>$id));
+		$query=$this->db->get_where('archive',array('user_id'=>$id));
 		$list=$query->result_array();
 		
 		if(count($list)==1){

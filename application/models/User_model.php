@@ -1,9 +1,9 @@
 <?php
 /**
  * @name M-用户
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-20
- * @version V1.0 2018-03-14
+ * @version 2018-11-28
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -41,10 +41,10 @@ class User_model extends CI_Model {
 	 * @param String 用户密码
 	 * @return String 验证状态码
 	 */
-	public function validateUser($userID=0,$userName="",$pwd)
+	public function validateUser($userId=0,$userName="",$pwd)
 	{
 		$sql1="SELECT salt,password,status FROM user WHERE id=? OR user_name=?";
-		$query1=$this->db->query($sql1,[$userID,$userName]);
+		$query1=$this->db->query($sql1,[$userId,$userName]);
 		
 		if($query1->num_rows()!=1){
 			return "404";

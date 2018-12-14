@@ -3,7 +3,7 @@
  * @name V-用户注册
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-22
- * @version 2018-11-24
+ * @version 2018-12-06
  */
 ?>
 
@@ -66,7 +66,18 @@
 					<input type="email" class="form-control" id="email" onkeyup='if(event.keyCode==13)reg();'>
 					<p class="help-block">用于忘记密码时获取验证码</p>
 				</div>
-				<button class="btn btn-lg btn-success btn-block" onclick='reg();'>注册 Register &gt;</button>
+				
+				<hr>
+				
+				<div style="text-align: center;">
+					<div class="alert alert-danger">
+						本页注册完成后，请等待页面跳转到档案登记页。两页填写完毕后方可退出页面！
+					</div>
+				</div>
+				
+				<br>
+				
+				<button class="btn btn-lg btn-success btn-block" onclick='reg();'>注册下一步 Register &gt;</button>
 			</div>
 		</div>
 	</div>
@@ -75,12 +86,17 @@
 <?php $this->load->view('/include/footer'); ?>
 
 <script>
-function haveChn(txt){
+function testUserName(txt){
 	r=new RegExp("[\\u4E00-\\u9FFF]+","g");
 	if(r.test(txt)){
 		return true;
 	}else{
-		return false;
+		r=new RegExp(/^[\w]+$/);
+		if(!r.test(txt)){
+			return true;
+		}else{
+			return false;
+		}
 	}
 }
 
@@ -106,9 +122,9 @@ function reg(){
 		$("#tipsModal").modal('show');
 		return false;
 	}
-	if(haveChn(userName)){
+	if(testUserName(userName)){
 		unlockScreen();
-		$("#tips").html("用户名不得含有汉字！");
+		$("#tips").html("用户名仅许含有<br>数字字母下划线！");
 		$("#tipsModal").modal('show');
 		return false;	
 	}
@@ -179,7 +195,7 @@ function reg(){
 			unlockScreen();
 			
 			if(ret.code=="200"){
-				alert("注册成功！请登记您的个人档案！");
+				alert("用户注册成功！\n现请您登记您的个人档案！");
 				window.location.href=ret.data['url'];
 				return true;
 			}else if(ret.message=="regFailed"){

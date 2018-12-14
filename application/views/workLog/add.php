@@ -3,7 +3,7 @@
  * @name V-新增工作记录
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-11-02
- * @version 2018-11-02
+ * @version 2018-11-27
  */ 
 ?>
 
@@ -12,7 +12,7 @@
 
 <head>
   <?php $this->load->view('include/header'); ?>
-  <title>新增工作记录 / <?php echo $this->Setting_model->get('systemName'); ?></title>
+  <title>新增工作记录 / <?=$this->Setting_model->get('systemName'); ?></title>
   <style>
 	ul.ztree{
 		margin-top: 10px;
@@ -24,6 +24,24 @@
 		overflow-x:auto;
 	}
 	</style>
+	<link rel="stylesheet" type="text/css" href="<?=base_url('resource/css/jquery-ui.css');?>">
+	<style type="text/css">
+		td,select{font-size:12px;}
+		.demo{width:500px;margin:20px auto;}
+		.demo h4{height:32px;line-height:32px;font-size:14px;}
+		.demo h4 span{font-weight:500;font-size:12px;}
+		.ui-timepicker-div dl dt {height: 25px;margin-bottom: -25px;}
+		.ui-timepicker-div dl dd {margin: 0 10px 10px 65px;}
+		.ui_tpicker_hour_label,.ui_tpicker_minute_label,.ui_tpicker_time_label{padding-left:20px;font-size:12px;}
+	</style>
+
+	<script>
+		jQuery.browser={};(function(){jQuery.browser.msie=false; jQuery.browser.version=0;if(navigator.userAgent.match(/MSIE ([0-9]+)./)){ jQuery.browser.msie=true;jQuery.browser.version=RegExp.$1;}})();
+	</script>
+
+	<script src="<?=base_url('resource/js/jquery-ui.js');?>"></script>
+	<script src="<?=base_url('resource/js/jquery-ui-slide.min.js');?>"></script>
+	<script src="<?=base_url('resource/js/jquery-ui-timepicker-addon.js');?>"></script>
 </head>
 
 <body>
@@ -50,7 +68,48 @@
 			<input type="hidden" id="userId" <?php if($type=="my"){echo 'value="'.$id.'"';} ?>>
 		</div>
 		
-		<br>
+		<div class="form-group">
+			<div class="col-xs-12">
+				<label>开始工作时间</label>
+			</div>
+			<div class="col-xs-6">
+				<input id="beginDate" class="form-control" onchange="getWorkHour();" readonly>
+			</div>
+			<div class="col-xs-6">
+				<select id="beginHour" class="form-control" onchange="getWorkHour();">
+					<option selected disabled>::: 请选择小时 :::</option>
+					<?php for($i=1;$i<=24;$i++){ ?>
+					<option value="<?php if($i<10) echo 0;?><?=$i;?>:00"><?php if($i<10) echo 0;?><?=$i;?>:00</option>
+					<?php } ?>
+				</select>
+			</div>
+			<br><br><br>
+		</div>
+
+		<div class="form-group">
+			<div class="col-xs-12">
+				<label>结束工作时间</label>
+			</div>
+			<div class="col-xs-6">
+				<input id="endDate" class="form-control" onchange="getWorkHour();" readonly>
+			</div>
+			<div class="col-xs-6">
+				<select id="endHour" class="form-control" onchange="getWorkHour();">
+					<option selected disabled>::: 请选择小时 :::</option>
+					<?php for($i=1;$i<=24;$i++){ ?>
+					<option value="<?php if($i<10) echo 0;?><?=$i;?>:00"><?php if($i<10) echo 0;?><?=$i;?>:00</option>
+					<?php } ?>
+				</select>
+			</div>
+			<br><br><br>
+		</div>
+
+		<div class="form-group">
+			<label>工作时长(单位:小时)</label>
+			<input class="form-control" id="workHour" disabled>
+		</div>
+		
+		<hr>
 		
 		<div class="form-group">
 			<label for="content" id="descTips">工作内容介绍</label>
@@ -93,13 +152,59 @@
 </div>
 
 <script>
+$(function(){
+	$('#beginDate').datepicker();
+	$('#endDate').datepicker();
+});
+
+
+function getWorkHour(){
+	beginDate=$("#beginDate").val();
+	beginHour=$("#beginHour").val();
+	endDate=$("#endDate").val();
+	endHour=$("#endHour").val();
+	
+	if(beginDate=="" || beginHour==null || endDate=="" || endHour==null){
+		return;
+	}
+	
+	begin=Date.parse(beginDate+" "+beginHour);
+	end=Date.parse(endDate+" "+endHour);
+	leave=end-begin;
+	
+	if(leave<=0){
+		showTipsModal("请正确选择日期！");
+		$("#workHour").val("0");
+	}else{
+		workHour=leave/(3600*1000);
+		$("#workHour").val(workHour);
+	}
+	
+	return;
+}
+
+
 function toAdd(){
 	lockScreen();
 	userId=$("#userId").val();
+	beginDate=$("#beginDate").val();
+	beginHour=$("#beginHour").val();
+	endDate=$("#endDate").val();
+	endHour=$("#endHour").val();
+	workHour=$("#workHour").val();
 	content=$("#content").val();
 	num=parseInt($("#uploadingNum").val());
 	photoUrl=new Array();
 
+	beginDate=beginDate+" "+beginHour+":00";
+	endDate=endDate+" "+endHour+":00";
+
+	if(beginDate=="" || beginHour==null || endDate=="" || endHour==null){
+		unlockScreen();
+		showTipsModal("请正确选择工作时间！");
+		return false;
+	}
+	
 	if(content.length>400 || content.length<10){
 		unlockScreen();
 		showTipsModal("请输入10~400字的工作内容介绍！");
@@ -115,7 +220,7 @@ function toAdd(){
 	$.ajax({
 		url:"<?=base_url('workLog/toAdd');?>",
 		type:"post",
-		data:{<?php echo $this->ajax->showAjaxToken(); ?>,'userId':userId,"content":content,'photoUrl':photoUrl},
+		data:{<?php echo $this->ajax->showAjaxToken(); ?>,'userId':userId,"beginDate":beginDate,"endDate":endDate,"workHour":workHour,"content":content,'photoUrl':photoUrl},
 		dataType:'json',
 		error:function(e){
 			console.log(JSON.stringify(e));

@@ -3,7 +3,7 @@
  * @name V-用户注册-初次填档案
  * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-11-05
- * @version 2018-11-18
+ * @version 2018-11-28
  */
 ?>
 
@@ -12,11 +12,9 @@
 
 <head>
 	<?php $this->load->view('include/header'); ?>
-	<title>注册 / <?=$this->Setting_model->get('systemName'); ?></title>
+	<title>初次填写档案 / <?=$this->Setting_model->get('systemName'); ?></title>
 	<style>
-	body{
-		padding-top: 40px;
-	}
+	body{padding-top:20px;}
 	</style>
 </head>
 
@@ -32,7 +30,6 @@
 					<label for="name">真实姓名</label>
 					<input class="form-control" id="name" value="<?=$name;?>" disabled>
 				</div>
-				<br>
 				<div class="form-group">
 					<label for="phone">手机号</label>
 					<input class="form-control" id="phone" value="<?=$phone;?>" disabled>
@@ -44,7 +41,6 @@
 					<label for="idCard">身份证号</label>
 					<input class="form-control" id="idCard" onkeyup='if(event.keyCode==13 || this.value.length==18){checkIdCard(this.value);$("#grade").focus();}'>
 				</div>
-				<br>
 				<div class="form-group">
 					<label>性别</label>
 					<select class="form-control" id="sex" disabled>
@@ -65,7 +61,6 @@
 					</select>
 					<p class="help-block">请选择<b>目前所在</b>的年级</p>
 				</div>
-				<br>
 				<div class="form-group">
 					<label for="classNum">班别</label>
 					<select class="form-control" id="classNum" onchange='$("#description").focus();'>
@@ -79,18 +74,18 @@
 				<div class="form-group">
 					<label for="description" id="descTips">个人简介</label>
 					<textarea class="form-control" id="description" rows="5" oninput='$("#descTips").html("个人简介(剩余可输入字数:<font color=red>"+(200-this.value.length)+"</font>)");'></textarea>
-					<p class="help-block">选填，限200字以内</p>
+					<p class="help-block" style="font-weight:bold;color:red;">选填，限200字以内</p>
 				</div>
 				<br>
 				<div class="form-group">
-					<label for="name">所在部门</label>
+					<label for="name">所在部门(点击灰色框进行选择)</label>
 					<input class="form-control" id="depName" onclick='$("#chooseDepModal").modal("show");' readonly>
 					<input type="hidden" id="depId">
 				</div>
-				<br>
 				<div class="form-group">
 					<label for="jobName">职务</label>
 					<input class="form-control" id="jobName">
+					<p class="help-block">如：部员、部长、常委</p>
 				</div>
 				
 				<hr>
@@ -101,7 +96,7 @@
 					</div>
 				</div>
 				<div style="text-align: center;">
-					<div class="alert alert-success">
+					<div class="alert alert-warning">
 						若信息填错可在登录后再次修改！
 					</div>
 				</div>
@@ -274,6 +269,11 @@ function removeHoverDom(treeId, treeNode) {
 				<h3 class="modal-title" id="photoTitle">选择您所在的部门</h3>
 			</div>
 			<div class="modal-body">
+				<div style="text-align: center;">
+					<div class="alert alert-success">
+						点击所在部门名称后，再点击右侧的“在此部门”即可！
+					</div>
+				</div>
 				<ul id="treeDemo" class="ztree"></ul>
 			</div>
 			<div class="modal-footer">

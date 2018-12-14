@@ -1,9 +1,9 @@
 <?php
 /**
  * @name C-Log日志
- * @author SmallOysyer <master@xshgzs.com>
+ * @author Jerry Cheung <master@xshgzs.com>
  * @since 2018-02-26
- * @version V1.0 2018-03-15
+ * @version 2018-11-28
  */
 
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -19,8 +19,6 @@ class Log extends CI_Controller {
 	{
 		parent::__construct();
 		
-		$this->load->library(array('Ajax'));
-		
 		$this->sessPrefix=$this->safe->getSessionPrefix();
 		$roleID=$this->session->userdata($this->sessPrefix."roleID");
 		$this->allMenu=$this->RBAC_model->getAllMenuByRole($roleID);
@@ -34,7 +32,7 @@ class Log extends CI_Controller {
 	{
 		$this->ajax->makeAjaxToken();
 		
-		$query=$this->db->query("SELECT * FROM log",[]);
+		$query=$this->db->get("log");
 		$list=$query->result_array();
 		
 		$this->load->view('admin/sys/log/list',['list'=>$list]);
